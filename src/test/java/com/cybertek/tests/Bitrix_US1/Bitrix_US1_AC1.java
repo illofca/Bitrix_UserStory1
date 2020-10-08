@@ -8,6 +8,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 /*
 AC#1: Given user on ""Bitrix"" login UR: https://login2.nextbasecrm.com/stream/
@@ -28,11 +29,12 @@ Then user should be able to choose from 4 options:
 4.Create files to upload
  */
 public class Bitrix_US1_AC1 {
+
     WebDriver driver;
 
     @BeforeMethod
     public void setUpMethod() {
-        driver = WebDriverFactory.getDriver("chrome");
+        driver = WebDriverFactory.getDriver("firefox");
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(15 , TimeUnit.SECONDS);
         driver.get("https://login2.nextbasecrm.com/stream/");
@@ -40,6 +42,8 @@ public class Bitrix_US1_AC1 {
 
     @Test
     public void logIn() throws InterruptedException {
+
+//AC#1
         WebElement login = driver.findElement(By.xpath("//input[@class='login-inp']"));
         login.sendKeys("helpdesk21@cybertekschool.com");
 
@@ -54,24 +58,34 @@ public class Bitrix_US1_AC1 {
         Assert.assertTrue(messageButton.isEnabled() , "Message button is not clicked. Verification FAILED!!");
 //AC#2
 
-        WebElement moreButton = driver.findElement(By.xpath("//*[@id='feed-add-post-form-link-more']"));
+        WebElement moreButton = driver.findElement(By.xpath("//span[@class='feed-add-post-more-icon']"));
         moreButton.click();
-       Thread.sleep(5);
+        Thread.sleep(5);
 
-            //Everythink works perfect until here
+        //Everythink works perfect until here
 
-       WebElement fileButton= driver.findElement(By.xpath("//*[@id=\"feed-add-post-form-link-text\"]"));
+        WebElement fileButton= driver.findElement(By.xpath("//span[.='File']"));
+        fileButton.click();
+        Thread.sleep(5);
 
-       fileButton.isEnabled();
-       fileButton.click();
-       Thread.sleep(5);
+        WebElement uploadFromBitrix = driver.findElement(By.xpath("//span[.='Select document from Bitrix24']"));
+        uploadFromBitrix.click();
+        Thread.sleep(5);
+
+        WebElement fileToUpload = driver.findElement(By.xpath("//a[.='1.png']"));
+        fileToUpload.click();
+        Thread.sleep(5);
 
 
+        WebElement selectDocument = driver.findElement(By.xpath("//*[@id=\"DiskFileDialog\"]/div[3]/span[1]"));
+        selectDocument.click();
+        Thread.sleep(5);
 
-//*[@id="feed-add-post-form-link-text"]
-        //C:/Users/ilofc/IdeaProjects/Bitrix_UserStory1/.git/
-        }
+        WebElement sendEmail = driver.findElement(By.xpath("//*[@id=\"blog-submit-button-save\"]"));
+        sendEmail.click();
+        Thread.sleep(5);
+
     }
 
-
+}
 
