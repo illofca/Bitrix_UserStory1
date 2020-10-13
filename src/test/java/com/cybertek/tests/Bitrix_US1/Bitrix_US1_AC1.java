@@ -58,7 +58,7 @@ public class Bitrix_US1_AC1 {
         messageButton.click();
 
        Assert.assertTrue(messageButton.isEnabled() , "Message button is not clicked. Verification FAILED!!");
-
+//AC#2
        WebDriverWait wait = new WebDriverWait(driver, 10);
        wait.until(ExpectedConditions.elementToBeClickable(By.id("feed-add-post-form-link-more")));
 
