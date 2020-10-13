@@ -4,6 +4,8 @@ import com.cybertek.Utilities.WebDriverFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -17,7 +19,6 @@ When the user provides valid credentials
 ==>password:UserUser
 Then he will successfully log in and see the home page,
 And see Message Tab under Activity Stream
-
 AC#2: Given user on "Bitrix" homepage URL.
 When user clicks on "Message",
 Then he should be able to see Files tap
@@ -34,7 +35,7 @@ public class Bitrix_US1_AC1 {
 
     @BeforeMethod
     public void setUpMethod() {
-        driver = WebDriverFactory.getDriver("firefox");
+        driver = WebDriverFactory.getDriver("chrome");
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(15 , TimeUnit.SECONDS);
         driver.get("https://login2.nextbasecrm.com/stream/");
@@ -52,40 +53,41 @@ public class Bitrix_US1_AC1 {
 
         WebElement submit = driver.findElement(By.xpath("//input[@type='submit']"));
         submit.click();
+
         WebElement messageButton = driver.findElement(By.xpath("//*[@id=\"feed-add-post-form-tab-message\"]"));
         messageButton.click();
 
-        Assert.assertTrue(messageButton.isEnabled() , "Message button is not clicked. Verification FAILED!!");
-//AC#2
+       Assert.assertTrue(messageButton.isEnabled() , "Message button is not clicked. Verification FAILED!!");
 
-        WebElement moreButton = driver.findElement(By.xpath("//span[@class='feed-add-post-more-icon']"));
-        moreButton.click();
-        Thread.sleep(5);
+       WebDriverWait wait = new WebDriverWait(driver, 10);
+       wait.until(ExpectedConditions.elementToBeClickable(By.id("feed-add-post-form-link-more")));
 
-        //Everythink works perfect until here
+
+       WebElement moreButton = driver.findElement(By.xpath("//*[@id=\"feed-add-post-form-link-more\"]"));
+       moreButton.click();
+
 
         WebElement fileButton= driver.findElement(By.xpath("//span[.='File']"));
         fileButton.click();
-        Thread.sleep(5);
+
 
         WebElement uploadFromBitrix = driver.findElement(By.xpath("//span[.='Select document from Bitrix24']"));
         uploadFromBitrix.click();
-        Thread.sleep(5);
+
 
         WebElement fileToUpload = driver.findElement(By.xpath("//a[.='1.png']"));
         fileToUpload.click();
-        Thread.sleep(5);
+
 
 
         WebElement selectDocument = driver.findElement(By.xpath("//*[@id=\"DiskFileDialog\"]/div[3]/span[1]"));
         selectDocument.click();
-        Thread.sleep(5);
+
 
         WebElement sendEmail = driver.findElement(By.xpath("//*[@id=\"blog-submit-button-save\"]"));
         sendEmail.click();
-        Thread.sleep(5);
+        driver.close();
 
     }
 
 }
-
