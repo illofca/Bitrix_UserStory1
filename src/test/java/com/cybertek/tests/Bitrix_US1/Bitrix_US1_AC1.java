@@ -59,6 +59,8 @@ public class Bitrix_US1_AC1 {
 
        Assert.assertTrue(messageButton.isEnabled() , "Message button is not clicked. Verification FAILED!!");
 //AC#2
+        //This solves chrome driver test failed problem when Thread.sleep(); method is used,
+        // WebDriverWait makes sure that the button is clicked
        WebDriverWait wait = new WebDriverWait(driver, 10);
        wait.until(ExpectedConditions.elementToBeClickable(By.id("feed-add-post-form-link-more")));
 
@@ -79,14 +81,13 @@ public class Bitrix_US1_AC1 {
         fileToUpload.click();
 
 
-
         WebElement selectDocument = driver.findElement(By.xpath("//*[@id=\"DiskFileDialog\"]/div[3]/span[1]"));
         selectDocument.click();
 
 
         WebElement sendEmail = driver.findElement(By.xpath("//*[@id=\"blog-submit-button-save\"]"));
         sendEmail.click();
-        driver.close();
+        //driver.close();
 
     }
 
